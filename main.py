@@ -9,14 +9,24 @@ screen.setup(width=800, height=600)
 screen.title("Pong")
 screen.tracer(0)
 
-r_paddle = Paddle((50, -200))
-# l_paddle = Paddle((-350, 0))
+main_paddle = Paddle((0, -250))
 ball = Ball()
 
+colors = ["yellow", "green", "blue", "red"]
+paddles = [paddle for paddle in range(11)]
+y_cor_paddles = 100
+for y_cor in range(4):
+    x_cor_paddles = -330
+    for paddle in paddles:
+        paddle = Paddle((x_cor_paddles, y_cor_paddles))
+        paddle.shapesize(stretch_wid=1, stretch_len=3)
+        paddle.color(colors[y_cor])
+        x_cor_paddles += 65
+    y_cor_paddles += 30
 
 screen.listen()
-screen.onkey(r_paddle.go_left, "a")
-screen.onkey(r_paddle.go_right, "d")
+screen.onkey(main_paddle.go_left, "a")
+screen.onkey(main_paddle.go_right, "d")
 
 
 game_is_on = True
@@ -34,7 +44,7 @@ while game_is_on:
         ball.bounce_x()
 
     #Detect collision with paddle
-    if ball.distance(r_paddle) < 40 and ball.xcor() < 320:
+    if ball.distance(main_paddle) < 40 and ball.xcor() < 320:
         ball.bounce_y()
 
     #Detect R paddle misses
