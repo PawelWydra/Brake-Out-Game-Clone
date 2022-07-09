@@ -11,17 +11,19 @@ screen.tracer(0)
 
 main_paddle = Paddle((0, -250))
 ball = Ball()
-
 colors = ["yellow", "green", "blue", "red"]
-paddles = [paddle for paddle in range(11)]
+
+paddles = []
+x_cor_paddles = -330
 y_cor_paddles = 100
 for y_cor in range(4):
-    x_cor_paddles = -330
-    for paddle in paddles:
+    for _ in range(11):
         paddle = Paddle((x_cor_paddles, y_cor_paddles))
         paddle.shapesize(stretch_wid=1, stretch_len=3)
         paddle.color(colors[y_cor])
         x_cor_paddles += 65
+        paddles.append(paddle)
+    x_cor_paddles = -330
     y_cor_paddles += 30
 
 screen.listen()
@@ -39,7 +41,7 @@ while game_is_on:
     if ball.ycor() > 280:
         ball.bounce_y()
 
-        # Detect collision with wall y
+        # Detect collision with wall x
     if ball.xcor() > 380 or ball.xcor() < -380:
         ball.bounce_x()
 
@@ -51,5 +53,8 @@ while game_is_on:
     if ball.ycor() < -250:
         ball.reset_position()
 
-
+    for paddle in paddles:
+        if ball.distance(paddle) < 40:
+            ball.bounce_y()
+            paddle.reset()
 screen.exitonclick()
