@@ -1,7 +1,9 @@
-from turtle import Screen, Turtle
-from paddle import Paddle
-from ball import Ball
 import time
+from turtle import Screen
+
+from ball import Ball
+from paddle import Paddle
+from scoreboard import Scoreboard
 
 screen = Screen()
 screen.bgcolor("black")
@@ -11,6 +13,7 @@ screen.tracer(0)
 
 main_paddle = Paddle((0, -250))
 ball = Ball()
+scoreboard = Scoreboard()
 colors = ["yellow", "green", "blue", "red"]
 
 paddles = []
@@ -30,14 +33,13 @@ screen.listen()
 screen.onkey(main_paddle.go_left, "a")
 screen.onkey(main_paddle.go_right, "d")
 
-
 game_is_on = True
 while game_is_on:
     time.sleep(0.05)
     screen.update()
     ball.move()
 
-    #Detect collision with wall y
+    # Detect collision with wall y
     if ball.ycor() > 280:
         ball.bounce_y()
 
@@ -45,12 +47,11 @@ while game_is_on:
     if ball.xcor() > 380 or ball.xcor() < -380:
         ball.bounce_x()
 
-    #Detect collision with paddle
+    # Detect collision with paddle
     if ball.distance(main_paddle) < 50 and ball.ycor() < -230:
-        print(ball.ycor())
         ball.bounce_y()
 
-    #Detect paddle misses
+    # Detect paddle misses
     if ball.ycor() < -250:
         ball.reset_position()
 
@@ -58,4 +59,9 @@ while game_is_on:
         if ball.distance(paddle) < 30:
             ball.bounce_y()
             paddle.reset()
+            scoreboard.point()
+
 screen.exitonclick()
+
+
+### TO DO - Add reward when ball hits paddle ###
