@@ -59,6 +59,7 @@ while game_is_on:
         if ball.distance(paddle) < 30:
             ball.bounce_y()
             paddle.reset()
+            paddle.goto(800, 800)
             scoreboard.point()
 
 screen.exitonclick()
